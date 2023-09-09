@@ -1,0 +1,99 @@
+#include "../std_lib_facilities.h"
+/*
+bool isPrime(unsigned long long n);
+unsigned long long getPrime(unsigned long long min, unsigned long long max);
+unsigned long long gcd(unsigned long long x, unsigned long long y);
+unsigned long long lcm(unsigned long long x, unsigned long long y);
+unsigned long long modInverse(unsigned long long e, unsigned long long lam);
+unsigned long long modExp(unsigned long long base,unsigned long long exp,unsigned long long n);
+*/
+
+
+bool isPrime(unsigned long long n) {
+    //Return true if n is prime, false otherwise.
+    //prime when only multiples are 1 and itself
+    bool isPrime = true; //create a return value, have to test it for factors
+    unsigned long long max = sqrt(n); //maximum factors of n are are n * n
+    if (n > 3) { //unisgned can't be negative, 1-3 are primes
+        for(unsigned long long i = 2; i <= max; i++) { //from smallest factor 2 through max factor n
+            if((n % i) == 0) { //if it divides evenly then it is not a prime
+                isPrime = false;
+            }
+        }
+    }
+    return isPrime;
+}
+
+unsigned long long getPrime(unsigned long long min, unsigned long long max) {
+    /*
+    Return a random prime number in the range of min to max
+    Loop to generate random num in range, while num is not prime, generate a new one
+    It is important that you do not call rand() more than necessary here or your output will not match tester
+    */
+   unsigned long long prime = 6;
+   while (!isPrime(prime)) {
+       prime = (rand() % (max - min +1)) + min;
+   }
+   return prime;
+}
+
+unsigned long long gcd(unsigned long long x, unsigned long long y) {
+    /*
+    Return the greatest common divisor of x and y.
+    Use the Basic Euclidean Algorithm for GCD
+    */
+    if (x > y) { // if first num is greater, re-run funct with values flipped
+       return gcd(y ,x);
+    }
+    else if (x == 0) { //if first is 0, Euclidean Alg is complete
+        return y;
+    }
+    else { //GCD value doesn't change by reducing larger num by multiples of smaller num
+        unsigned long long temp;
+        temp = x;
+        x = y % x;
+        y = temp;
+        return gcd(x, y);
+    }
+}
+
+unsigned long long lcm(unsigned long long x, unsigned long long y) {
+    //Return the least common multiple of x and y 
+    return ((x*y) / gcd(x,y));
+}
+
+unsigned long long modInverse(unsigned long long e, unsigned long long lam) {
+    /*
+    Modular Inverse function.
+    Given e and lam as parameters, find a number d such that: ( d * e ) % lam = 1
+    Simple, iterative approach: for loop tests every d from 1 to lam
+    Set d when equation = 1 and return d
+    */
+    unsigned long long d;
+
+    for (unsigned long long i = 1; i <= lam; i ++) {
+        if (((i * e) % lam) == 1) {
+            d = i;
+        }
+    }
+
+    return d;
+
+}
+
+unsigned long long modExp(unsigned long long base, unsigned long long exp, unsigned long long n)
+{
+    /*
+    Modular exponentiation
+    The goal is to raise to a power and then mod:
+    return LaTeX: \left(base^{exp}\right)\:\%\:n( b a s e e x p ) % n
+    Unfortunately, if you try to compute the above expression, the power will get ridiculously large
+    and overflow before the mod operation is done
+    To work around this, we will multiply the base once per iteration and then mod as we go to
+    keep the number smaller.  This is tricky to visualize so I will give you the code for this one:
+    */
+    unsigned long long ans = 1;
+    for(unsigned long long i = 0; i < exp; i++)
+        ans = (ans * base) % n;
+    return ans;
+}

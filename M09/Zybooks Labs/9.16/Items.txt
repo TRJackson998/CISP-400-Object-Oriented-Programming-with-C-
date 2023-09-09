@@ -1,0 +1,10 @@
+Sunglasses 1357 22.50
+Speakers 1324 105.25
+PhoneCase 8797 67.75
+3DPrinter 7878 220.00
+BatteryPack 68574 75.00
+Drone 5464 180.99
+Fitbit 4411 95.67
+Watch 1100 110.10
+Shoes 11111 87.75
+Hat 3311 25.25

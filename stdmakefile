@@ -1,0 +1,18 @@
+CC = g++
+CFLAGS = -c -Wall -std=c++14
+EXENAME = executable
+
+default: main.o other.o
+	$(CC) main.o other.o -o $(EXENAME)
+
+main.o: main.cpp other.h
+	$(CC) $(CFLAGS) main.cpp
+
+other.o: other.cpp other.h
+	$(CC) $(CFLAGS) other.cpp
+
+clean:
+	rm *.o *.txt $(EXENAME)
+
+run:
+	./$(EXENAME)
